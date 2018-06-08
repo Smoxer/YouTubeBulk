@@ -1,4 +1,4 @@
-###Download songs from youtube in massive use
+## Download songs from youtube in massive use
 Edit `Songs.txt` and write each song in different line  
 Use:  
 `$ python main.py`  
