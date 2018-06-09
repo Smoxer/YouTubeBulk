@@ -13,7 +13,6 @@ class YouTube(object):
 
     YOUTUBE_API_SEARCH_URL = 'https://content.googleapis.com/youtube/v3/search?q={}&maxResults=1&part=snippet,id&key={}'
     YOUTUBE_VIDEO_PREFIX = 'https://www.youtube.com/watch?v='
-    OUTPUT_FORMAT = '.mp3'
     OPTIONS = {
         'quiet': True,
         'format': 'bestaudio/best',
@@ -41,12 +40,13 @@ class YouTube(object):
         except KeyError:
             return None
 
-    def download_video(self, video_id, folder):
+    def download_video(self, video_id, path, output_format = '%(id)s.%(ext)s'):
         """
         Download a video from YouTube to the disk
         :param video_id: The video's ID
         :param folder: The folder's path to save the file
+		:param output_format: Format for the file, default of id.ext
         """
-        YouTube.OPTIONS['outtmpl'] = folder + video_id + YouTube.OUTPUT_FORMAT
+        YouTube.OPTIONS['outtmpl'] = path + output_format
         downloader = youtube_dl.YoutubeDL(YouTube.OPTIONS)
         downloader.extract_info(YouTube.YOUTUBE_VIDEO_PREFIX + video_id, download=True)
