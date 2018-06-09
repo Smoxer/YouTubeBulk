@@ -45,7 +45,7 @@ class YouTube(object):
         Download a video from YouTube to the disk
         :param video_id: The video's ID
         :param folder: The folder's path to save the file
-		:param output_format: Format for the file, default of id.ext
+		:param output_format: Format for the file, default of <id>.<ext>
         """
         YouTube.OPTIONS['outtmpl'] = path + output_format
         downloader = youtube_dl.YoutubeDL(YouTube.OPTIONS)

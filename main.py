@@ -37,7 +37,7 @@ def main():
             elif os.path.exists(os.path.join(OUTPUT_PATH, video_id) + FILE_EXT):
                 print '\tSong already downloaded'
             else:
-                youtube.download_video(video_id,OUTPUT_PATH, OUTPUT_FILE)
+                youtube.download_video(video_id, OUTPUT_PATH, OUTPUT_FILE)
     except Exception as e:
         print str(e)
 
