@@ -11,7 +11,8 @@ Omri Maor - u122
 
 YOUTUBE_API_KEY = 'AIzaSyD7JJgCoo-Qdi_-dTQPn4pd9wXZPQdlD9w'
 OUTPUT_PATH = 'songs/'
-
+OUTPUT_FILE = '%(title)s.%(ext)s'
+FILE_EXT = '.mp3'
 
 def get_songs(path='Songs.txt'):
     """
@@ -33,10 +34,10 @@ def main():
             video_id = youtube.get_id_by_name(song)
             if video_id is None:
                 print '\tCouldn\'t find this video on YouTube'
-            elif os.path.exists(os.path.join(OUTPUT_PATH, video_id) + YouTube.OUTPUT_FORMAT):
+            elif os.path.exists(os.path.join(OUTPUT_PATH, video_id) + FILE_EXT):
                 print '\tSong already downloaded'
             else:
-                youtube.download_video(video_id, OUTPUT_PATH)
+                youtube.download_video(video_id, OUTPUT_PATH, OUTPUT_FILE)
     except Exception as e:
         print str(e)
 
