@@ -1,16 +1,11 @@
 import youtube_dl
 import json
-import urllib
-import urllib2
+import os
+import urllib.parse
+import urllib.request
 
 
 class YouTube(object):
-    """
-    A class for YouTube
-
-    :author: Omri Maor
-    """
-
     YOUTUBE_API_SEARCH_URL = 'https://content.googleapis.com/youtube/v3/search?q={}&maxResults=1&part=snippet,id&key={}'
     YOUTUBE_VIDEO_PREFIX = 'https://www.youtube.com/watch?v='
     OPTIONS = {
@@ -32,21 +27,22 @@ class YouTube(object):
         :param name: The video's name
         :return: The video's id
         """
-        response = urllib2.urlopen(YouTube.YOUTUBE_API_SEARCH_URL.format(urllib.quote(name),
-                                                                         self._api_key)).read()
+        response = urllib.request.urlopen(YouTube.YOUTUBE_API_SEARCH_URL.format(urllib.parse.quote(name),
+                                                                                self._api_key)).read()
         youtube_json = json.loads(response)
         try:
             return str(youtube_json['items'][0]['id']['videoId'])
         except KeyError:
             return None
 
-    def download_video(self, video_id, path, output_format = '%(id)s.%(ext)s'):
+    @staticmethod
+    def download_video(video_id, path, output_format='%(id)s.%(ext)s'):
         """
         Download a video from YouTube to the disk
         :param video_id: The video's ID
-        :param folder: The folder's path to save the file
-		:param output_format: Format for the file, default of <id>.<ext>
+        :param path: The folder's path to save the file
+        :param output_format: Format for the file, default of <id>.<ext>
         """
-        YouTube.OPTIONS['outtmpl'] = path + output_format
+        YouTube.OPTIONS['outtmpl'] = os.path.join(path, output_format)
         downloader = youtube_dl.YoutubeDL(YouTube.OPTIONS)
         downloader.extract_info(YouTube.YOUTUBE_VIDEO_PREFIX + video_id, download=True)
